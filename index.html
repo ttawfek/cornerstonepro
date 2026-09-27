@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cornerstone Pro | Custom Oilfield Electrical &amp; Instrumentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<style>
+  :root{
+    --paper:#ECEAE3;
+    --paper-alt:#E1DED2;
+    --ink:#17191C;
+    --ink-soft:#4B5058;
+    --panel:#FDFCFA;
+    --panel-dark:#1D1F22;
+    --panel-dark-2:#25282C;
+    --amber:#C6912E;
+    --amber-deep:#A1741F;
+    --amber-ink:#3A2A0C;
+    --red:#A23A2C;
+    --line:#C7C2B4;
+    --line-dark:#3A3E43;
+    --radius:10px;
+    --maxw:1180px;
+    --font-display:'Big Shoulders Display', sans-serif;
+    --font-body:'IBM Plex Sans', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#1A1B1D; --paper-alt:#212325; --ink:#EDEAE2; --ink-soft:#ACA89C;
+      --panel:#232527; --panel-dark:#111214; --panel-dark-2:#1A1C1E;
+      --line:#3A3B3A; --line-dark:#3A3E43;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#1A1B1D; --paper-alt:#212325; --ink:#EDEAE2; --ink-soft:#ACA89C;
+    --panel:#232527; --panel-dark:#111214; --panel-dark-2:#1A1C1E;
+    --line:#3A3B3A; --line-dark:#3A3E43;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{overflow-x:hidden; max-width:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-body); font-size:16px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:var(--font-display); font-weight:800; letter-spacing:0.2px; margin:0 0 .4em; line-height:1.02;}
+  p{margin:0 0 1em;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px;}
+  :focus-visible{outline:3px solid var(--amber); outline-offset:2px;}
+
+  /* ---------- header ---------- */
+  header.site{
+    background:var(--panel-dark); color:#EDEAE2; position:sticky; top:0; z-index:50;
+    border-bottom:3px solid var(--amber);
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:var(--maxw); margin:0 auto; padding:14px 24px;
+  }
+  .plate{
+    position:relative; display:flex; align-items:center;
+  }
+  .plate .mark{
+    height:42px; width:auto; display:block; transition:opacity .15s, transform .15s;
+  }
+  .plate:hover .mark, .plate:focus-visible .mark{opacity:.82; transform:scale(1.03);}
+  nav.primary{display:flex; align-items:center; gap:28px;}
+  nav.primary a{
+    font-size:15px; font-weight:500; text-decoration:none; color:#D8D5CB;
+    padding:6px 2px; border-bottom:2px solid transparent; transition:border-color .15s, color .15s;
+  }
+  nav.primary a:hover{color:#fff;}
+  nav.primary a.active{color:#fff; border-bottom-color:var(--amber);}
+  .header-right{display:flex; align-items:center; gap:16px;}
+  .header-cta{
+    font-family:var(--font-body); font-weight:600; font-size:14px; color:#241A07; text-decoration:none;
+    background:var(--amber); padding:10px 18px; display:none; border-radius:var(--radius);
+    transition:background .15s;
+  }
+  .header-cta:hover{background:var(--amber-deep);}
+  .burger{display:none; background:none; border:1px solid var(--line-dark); color:#fff; padding:8px 10px; cursor:pointer; font-size:18px; line-height:1; border-radius:var(--radius);}
+  @media (min-width:860px){ .header-cta{display:inline-block;} }
+  @media (max-width:859px){
+    nav.primary{
+      position:fixed; inset:60px 0 auto 0; background:var(--panel-dark);
+      flex-direction:column; align-items:flex-start; gap:0; padding:8px 24px 20px;
+      border-bottom:3px solid var(--amber); transform:translateY(-130%); transition:transform .22s ease;
+    }
+    nav.primary.open{transform:translateY(0);}
+    nav.primary a{width:100%; padding:12px 0; border-bottom:1px solid var(--line-dark);}
+    nav.primary a.active{border-bottom:1px solid var(--amber);}
+    .burger{display:block;}
+    .plate .mark{height:34px;}
+  }
+
+  /* ---------- tag chip (terminal-label motif, used sparingly) ---------- */
+  .tag{
+    display:inline-flex; align-items:center; font-family:var(--font-mono); font-size:11px;
+    font-weight:600; letter-spacing:.04em; color:#F1EEE6; background:var(--panel-dark);
+    padding:4px 8px; border-radius:1px;
+  }
+  .tag.amber{background:var(--amber); color:#2B1F09;}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; font-family:var(--font-body);
+    font-weight:600; font-size:15px; padding:13px 22px; text-decoration:none;
+    border:1px solid transparent; cursor:pointer; border-radius:var(--radius); transition:background .15s,color .15s,border-color .15s;
+  }
+  .btn-primary{background:var(--amber); color:#241A07;}
+  .btn-primary:hover{background:var(--amber-deep);}
+  .btn-outline{border-color:var(--ink); color:var(--ink);}
+  .btn-outline:hover{background:var(--ink); color:var(--paper);}
+  .btn-outline-light{border-color:#D8D5CB; color:#F3F1EA;}
+  .btn-outline-light:hover{background:#F3F1EA; color:var(--panel-dark);}
+
+  /* ---------- page sections ---------- */
+  .page{display:none; padding:0;}
+  .page.active{display:block;}
+  section{padding:64px 0;}
+  @media (max-width:700px){ section{padding:44px 0;} }
+
+  /* ---------- HOME hero ---------- */
+  .hero{padding-top:56px; padding-bottom:60px;}
+  .hero-solo{max-width:62ch;}
+  .hero h1{font-size:clamp(36px,5vw,58px); max-width:19ch;}
+  .hero .lede{font-size:18px; color:var(--ink-soft); max-width:46ch; margin-bottom:28px;}
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+
+  /* ---------- mission strip ---------- */
+  .mission{background:var(--panel-dark); color:#E7E4DA; padding:76px 0;}
+  @media (max-width:700px){ .mission{padding:52px 0;} }
+  .mission .wrap{display:grid; grid-template-columns:.5fr 1fr; gap:40px; align-items:start;}
+  @media (max-width:760px){ .mission .wrap{grid-template-columns:1fr; gap:18px;} }
+  .mission h2{color:#fff; font-size:clamp(26px,3vw,34px);}
+  .mission p{font-size:17px; color:#C9C6BB; max-width:56ch;}
+  .mission .head-col{position:relative;}
+  .mission .rule{position:absolute; top:-20px; left:0; width:46px; height:3px; background:var(--amber); margin-bottom:0;}
+
+  /* ---------- capability cards ---------- */
+  .cap-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media (max-width:900px){ .cap-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .cap-grid{grid-template-columns:1fr;} }
+  .cap-card{background:var(--panel); padding:28px 24px; border-left:3px solid var(--amber);}
+  .cap-card h3{font-size:20px; margin-bottom:8px;}
+  .cap-card p{font-size:14.5px; color:var(--ink-soft); margin:0;}
+
+  .section-head{max-width:60ch; margin-bottom:36px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,40px);}
+  .section-head p{color:var(--ink-soft); font-size:16.5px; margin:0;}
+  .section-head .rule{width:46px; height:3px; background:var(--amber); margin-bottom:16px;}
+
+  /* ---------- featured work ---------- */
+  .feat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:26px;}
+  @media (max-width:820px){ .feat-grid{grid-template-columns:1fr;} }
+  .feat-card img{width:100%; aspect-ratio:4/3; object-fit:cover; border:1px solid var(--line);}
+  .feat-card .cap{margin-top:12px;}
+  .feat-card .cap .tag{margin-bottom:8px;}
+  .feat-card .cap p{font-size:14.5px; color:var(--ink-soft); margin:0;}
+  .feat-more{margin-top:34px;}
+  .feat-more a{font-weight:600; text-decoration:none; border-bottom:2px solid var(--amber); padding-bottom:2px;}
+
+  /* ---------- CTA band ---------- */
+  .cta-band{background:var(--amber); color:#241A07;}
+  .cta-band .wrap{display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+  .cta-band h2{font-size:clamp(24px,3.2vw,32px); margin:0; max-width:22ch;}
+
+  /* ---------- SERVICES page ---------- */
+  .svc-row{display:grid; grid-template-columns:.9fr 1.1fr; gap:48px; align-items:center; padding:44px 0; border-top:1px solid var(--line);}
+  .svc-row:first-of-type{border-top:none;}
+  @media (max-width:820px){ .svc-row{grid-template-columns:1fr; gap:22px;} }
+  .svc-row.rev .img-col{order:2;}
+  .svc-row.rev .txt-col{order:1;}
+  @media (max-width:820px){ .svc-row.rev .img-col, .svc-row.rev .txt-col{order:0;} }
+  .svc-row img{width:100%; aspect-ratio:5/4; object-fit:cover; border:1px solid var(--line);}
+  .svc-num{font-family:var(--font-mono); color:var(--amber-deep); font-size:13px; font-weight:600; margin-bottom:10px; display:block;}
+  .svc-row h3{font-size:clamp(22px,2.6vw,28px);}
+  .svc-row p.desc{color:var(--ink-soft); font-size:15.5px; max-width:52ch;}
+  .svc-bullets{list-style:none; margin:16px 0 0; padding:0; display:grid; gap:8px;}
+  .svc-bullets li{font-size:14.5px; color:var(--ink); padding-left:16px; position:relative;}
+  .svc-bullets li::before{content:""; position:absolute; left:0; top:7px; width:6px; height:6px; background:var(--amber);}
+
+  /* ---------- ABOUT page ---------- */
+  .about-hero{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center;}
+  @media (max-width:860px){ .about-hero{grid-template-columns:1fr;} }
+  .about-hero img{width:100%; aspect-ratio:4/3; object-fit:cover; border:1px solid var(--line);}
+  .about-hero h1{font-size:clamp(32px,4.4vw,48px);}
+  .about-hero p{font-size:17px; color:var(--ink-soft); max-width:52ch;}
+  .values{display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:52px;}
+  @media (max-width:760px){ .values{grid-template-columns:1fr;} }
+  .value h3{font-size:19px; margin-bottom:8px;}
+  .value p{font-size:14.5px; color:var(--ink-soft); margin:0;}
+  .value .dot{width:10px; height:10px; background:var(--amber); margin-bottom:14px;}
+  .about-strip{background:var(--paper-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:56px;}
+  .about-strip .wrap{padding:40px 24px; display:flex; gap:40px; flex-wrap:wrap; justify-content:space-between;}
+  .stat{}
+  .stat .tag{margin-bottom:8px;}
+  .stat p{margin:0; font-size:14.5px; color:var(--ink-soft); max-width:34ch;}
+
+  /* ---------- GALLERY page ---------- */
+  .filters{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:30px; border-bottom:1px solid var(--line); padding-bottom:14px;}
+  .filters button{
+    background:none; border:none; font-family:var(--font-body); font-size:14.5px; font-weight:600;
+    color:var(--ink-soft); padding:6px 0; cursor:pointer; border-bottom:2px solid transparent;
+  }
+  .filters button.active{color:var(--ink); border-bottom-color:var(--amber);}
+  .gal-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:900px){ .gal-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .gal-grid{grid-template-columns:1fr;} }
+  .gal-card{cursor:pointer; background:var(--panel); border:1px solid var(--line);}
+  .gal-card .imgwrap{overflow:hidden; aspect-ratio:4/3;}
+  .gal-card img{width:100%; height:100%; object-fit:cover; transition:transform .35s ease;}
+  .gal-card:hover img{transform:scale(1.045);}
+  .gal-meta{padding:13px 14px 15px;}
+  .gal-meta .tag{margin-bottom:8px;}
+  .gal-meta h3{font-family:var(--font-body); font-weight:600; font-size:15px; margin:0;}
+  .gal-card.hidden{display:none;}
+
+  .lightbox{
+    position:fixed; inset:0; background:rgba(10,10,10,.92); z-index:200;
+    display:none; align-items:center; justify-content:center; padding:5vh 5vw;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox figure{margin:0; max-width:92vw; max-height:86vh; display:flex; flex-direction:column; align-items:center;}
+  .lightbox img{width:auto; height:auto; max-width:min(900px, 92vw); max-height:78vh; object-fit:contain; border:1px solid #444; display:block;}
+  .lightbox figcaption{color:#EDEAE2; font-size:14px; margin-top:14px; font-family:var(--font-mono); text-align:center; max-width:70ch;}
+  .lb-close{
+    position:absolute; top:22px; right:26px; background:none; border:1px solid #666; color:#fff;
+    width:40px; height:40px; font-size:20px; cursor:pointer; line-height:1; border-radius:50%;
+  }
+  .lb-close:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* ---------- footer ---------- */
+  footer.site{background:var(--panel-dark); color:#C9C6BB; margin-top:0;}
+  .contact-form-wrap{padding:64px 0 64px; background:var(--panel-dark); color:#E7E4DA;}
+  @media (max-width:700px){ .contact-form-wrap{padding:44px 0 44px;} }
+  .contact-form{display:flex; flex-direction:column; gap:18px; max-width:760px; margin-top:8px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:600px){ .form-row{grid-template-columns:1fr;} }
+  .contact-form label{display:flex; flex-direction:column; gap:7px; font-size:14px; color:#D8D5CB; font-weight:500;}
+  .contact-form label.full{width:100%;}
+  .contact-form .req{color:var(--amber); margin-left:2px;}
+  .contact-form input, .contact-form select, .contact-form textarea{
+    background:var(--panel-dark-2); border:1px solid var(--line-dark); color:#F3F1EA;
+    padding:12px 13px; font-family:var(--font-body); font-size:15px; border-radius:var(--radius);
+    width:100%;
+  }
+  .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus{border-color:var(--amber);}
+  .contact-form textarea{resize:vertical; min-height:120px; font-family:var(--font-body);}
+  .form-actions{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:4px;}
+  .footer-top{padding:56px 0 40px; border-bottom:1px solid var(--line-dark);}
+  .footer-grid{display:grid; grid-template-columns:1.1fr .8fr 1fr; gap:40px;}
+  @media (max-width:800px){ .footer-grid{grid-template-columns:1fr; gap:32px;} }
+  .footer-grid h4{font-family:var(--font-display); color:#fff; font-size:18px; margin:0 0 14px;}
+  .footer-grid p{color:#A9A69C; font-size:14.5px;}
+  .foot-plate{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .foot-plate .mark{width:26px; height:auto; display:block;}
+  .foot-plate .word{font-family:var(--font-display); font-weight:800; font-size:21px; color:#F3F1EA;}
+  .foot-plate .word span{color:var(--amber);}
+  .foot-links a{display:block; text-decoration:none; color:#C9C6BB; font-size:14.5px; padding:5px 0;}
+  .foot-links a:hover{color:#fff;}
+  table.hours{width:100%; border-collapse:collapse; font-size:14px;}
+  table.hours td{padding:5px 0; border-bottom:1px solid var(--line-dark); color:#C9C6BB;}
+  table.hours td:last-child{text-align:right; font-family:var(--font-mono); color:#E7E4DA;}
+  .contact-links a{
+    display:inline-flex; align-items:center; gap:8px; margin:4px 10px 4px 0;
+  }
+  .footer-bottom{padding:20px 0; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:13px; color:#8C897F;}
+
+  .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <a href="#home" class="plate" aria-label="Cornerstone Pro — home" data-page="home" style="text-decoration:none;">
+      <img class="mark" src="images/logo.png" alt="Cornerstone Pro">
+    </a>
+    <nav class="primary" id="primaryNav">
+      <a href="#home" data-page="home">Home</a>
+      <a href="#services" data-page="services">Services</a>
+      <a href="#gallery" data-page="gallery">Gallery</a>
+      <a href="#about" data-page="about">About us</a>
+      <a href="#contact" data-page="contact">Contact us</a>
+    </nav>
+    <div class="header-right">
+      <a class="header-cta" href="#contact" data-page="contact">Get in Touch</a>
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= HOME ================= -->
+<section class="page" id="page-home" data-page="home">
+
+  <div class="hero wrap">
+    <div class="hero-solo">
+      <h1>Premium Equipment Starts With a Clean Design</h1>
+      <p class="lede">Cornerstone Pro designs and hand-wires control panels, depth &amp; encoder systems, and wiring harnesses for oil and gas field equipment &mdash; every terminal labeled, every circuit tested, every unit built in Calgary.</p>
+      <div class="hero-ctas">
+        <a href="#gallery" class="btn btn-primary" data-page="gallery">See our work</a>
+        <a href="#contact" class="btn btn-primary">Get a quote</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mission">
+    <div class="wrap">
+      <div class="head-col">
+        <div class="rule"></div>
+        <h2>Our mission</h2>
+      </div>
+      <p>We build oil and gas field equipment that holds up to the work it's asked to do. That means engineering it with the same care whether the job is a two-wire harness or a full skid rebuild &mdash; laid out clean, labeled clearly, and tested before it leaves the shop.</p>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:64px;">
+    <div class="section-head">
+      <div class="rule"></div>
+      <h2>What we build</h2>
+      <p>Four kinds of work make up most of what comes through the shop.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="cap-grid">
+      <div class="cap-card">
+        <h3>Control panels</h3>
+        <p>Custom-fabricated panels &mdash; fuse blocks, switches, meters, and terminal strips laid out and labeled to spec.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Depth &amp; encoders</h3>
+        <p>Splitter boxes, rotary encoders, and measuring-head electronics, reconditioned or built new.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Harnesses &amp; breakouts</h3>
+        <p>Hand-terminated cable assemblies and breakout boxes built to route cleanly through a rig or skid.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Testing &amp; repair</h3>
+        <p>Continuity and voltage checks on everything that ships, plus fault-finding on existing systems.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:64px; padding-bottom:0;">
+    <div class="section-head">
+      <div class="rule"></div>
+      <h2>Recent work</h2>
+      <p>A few pieces that have gone out the door.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <img src="images/depth_splitter.jpg" alt="Depth splitter box built for a wireline client">
+        <div class="cap"><span class="tag">DEPTH SPLITTER BOX</span><p>Splits a Linewise depth signal to an encoder and a customer's KWAT input.</p></div>
+      </div>
+      <div class="feat-card">
+        <img src="images/terminal_panel.jpg" alt="Labeled terminal panel with ground, encoder, tension and slip ring circuits">
+        <div class="cap"><span class="tag">TERMINAL PANEL</span><p>Ground, encoder, tension and slip-ring circuits, each labeled at the block.</p></div>
+      </div>
+      <div class="feat-card">
+        <img src="images/unit_power_box.jpg" alt="Unit power switching box selecting between shop and rig power">
+        <div class="cap"><span class="tag">POWER SWITCHING BOX</span><p>Selects shop or rig power between two sources, with dual voltage metering.</p></div>
+      </div>
+    </div>
+    <div class="feat-more"><a href="#gallery" data-page="gallery">See the full gallery &rarr;</a></div>
+  </div>
+
+  <div class="cta-band" style="margin-top:64px;">
+    <div class="wrap" style="padding-top:40px; padding-bottom:40px;">
+      <h2>Need a panel built, or a system diagnosed?</h2>
+      <a href="#contact" class="btn" style="background:#241A07; color:#F3E7C9;">Get in touch</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="page" id="page-services" data-page="services">
+  <div class="wrap" style="padding-top:56px;">
+    <div class="section-head">
+      <div class="rule"></div>
+      <h1 style="font-size:clamp(30px,4vw,44px);">Services</h1>
+      <p>What we build, wire, and fix &mdash; from a single breakout box to a full skid.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="svc-row">
+      <div class="img-col"><img src="images/inprogress_wiring.jpg" alt="Control panel wiring in progress, terminal blocks and colour-coded leads"></div>
+      <div class="txt-col">
+        <span class="svc-num">01 &mdash; PANELS</span>
+        <h3>Custom control panel fabrication</h3>
+        <p class="desc">We design and build control panels from the enclosure up &mdash; fuse blocks, switches, meters, and terminal blocks laid out, labeled, and dressed for a panel that's easy to service later.</p>
+        <ul class="svc-bullets">
+          <li>Enclosure layout and drilling</li>
+          <li>Labeled terminal strips</li>
+          <li>Panel meters and switching</li>
+          <li>Built to your spec, or ours</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-row rev">
+      <div class="img-col"><img src="images/bench_inventory.jpg" alt="Encoder, power sampling box and cabling laid out on the bench"></div>
+      <div class="txt-col">
+        <span class="svc-num">02 &mdash; DEPTH &amp; ENCODERS</span>
+        <h3>Depth measurement &amp; encoder systems</h3>
+        <p class="desc">Splitter boxes, rotary encoders, and measuring-head electronics for depth and tension systems &mdash; reconditioned or built new. We've worked on gear from Century Geophysical, Linewise, and other wireline equipment makers.</p>
+        <ul class="svc-bullets">
+          <li>Encoder reconditioning and bench testing</li>
+          <li>Depth splitter boxes</li>
+          <li>Tension and slip-ring wiring</li>
+          <li>Compatibility with common logging systems</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-row">
+      <div class="img-col"><img src="images/connector_prep.jpg" alt="Multi-pin connector being hand-terminated with soldered and heat-shrunk leads"></div>
+      <div class="txt-col">
+        <span class="svc-num">03 &mdash; HARNESSES</span>
+        <h3>Custom cable &amp; harness assemblies</h3>
+        <p class="desc">Hand-terminated harnesses and breakout boxes, built to route power, signal, and ground cleanly through a rig or skid.</p>
+        <ul class="svc-bullets">
+          <li>Multi-pin connector termination</li>
+          <li>Braided and armored cable assemblies</li>
+          <li>Labeled breakout boxes</li>
+          <li>Solder and crimp termination</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-row rev">
+      <div class="img-col"><img src="images/bracket_detail.jpg" alt="Cable tension bracket hardware mounted on a winch frame"></div>
+      <div class="txt-col">
+        <span class="svc-num">04 &mdash; SKIDS &amp; VEHICLES</span>
+        <h3>Skid &amp; vehicle electrical builds</h3>
+        <p class="desc">Full electrical builds for skids, service trucks, and logging units &mdash; from the main switching hub down to the last light switch.</p>
+        <ul class="svc-bullets">
+          <li>Main switching and fuse hubs</li>
+          <li>Interior and exterior lighting circuits</li>
+          <li>Camera and alarm wiring</li>
+          <li>Shop / rig power switching</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="svc-row">
+      <div class="img-col"><img src="images/qc_multimeter.jpg" alt="Two multimeters checking voltage on a finished panel"></div>
+      <div class="txt-col">
+        <span class="svc-num">05 &mdash; TESTING</span>
+        <h3>Testing, diagnostics &amp; repair</h3>
+        <p class="desc">Every circuit gets checked before it ships. And if something in the field stops working, we can track it down and fix it.</p>
+        <ul class="svc-bullets">
+          <li>Continuity and voltage testing</li>
+          <li>Fault-finding on existing systems</li>
+          <li>Component-level repair</li>
+          <li>Bench testing before install</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="cta-band" style="margin-top:20px;">
+    <div class="wrap" style="padding-top:40px; padding-bottom:40px;">
+      <h2>Tell us what you're building or fixing.</h2>
+      <a href="#contact" class="btn" style="background:#241A07; color:#F3E7C9;">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="page" id="page-gallery" data-page="gallery">
+  <div class="wrap" style="padding-top:56px; padding-bottom:64px;">
+    <div class="section-head">
+      <div class="rule"></div>
+      <h1 style="font-size:clamp(30px,4vw,44px);">Our work</h1>
+      <p>Panels, boxes, and builds that have gone out the shop door.</p>
+    </div>
+
+    <div class="filters" id="galFilters">
+      <button class="active" data-filter="all">All work</button>
+      <button data-filter="panels">Panels &amp; hubs</button>
+      <button data-filter="depth">Depth &amp; encoders</button>
+      <button data-filter="boxes">Boxes &amp; builds</button>
+    </div>
+
+    <div class="gal-grid" id="galGrid">
+
+      <div class="gal-card" data-cat="boxes" data-title="Breakout box" data-desc="19-channel breakout box with braided cable harness and labeled banana-jack terminals.">
+        <div class="imgwrap"><img src="images/hero_breakout.jpg" alt="19-channel breakout box with braided cable harness"></div>
+        <div class="gal-meta"><span class="tag">BOXES &amp; BUILDS</span><h3>Breakout box</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="depth" data-title="Depth splitter box" data-desc="Splits a Linewise depth signal to an encoder and a customer's KWAT input.">
+        <div class="imgwrap"><img src="images/depth_splitter.jpg" alt="Depth splitter box"></div>
+        <div class="gal-meta"><span class="tag">DEPTH &amp; ENCODERS</span><h3>Depth splitter box</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="depth" data-title="Versa-Line encoder box" data-desc="Encoder and memory-box unit with pre-terminated cordsets, ready to ship.">
+        <div class="imgwrap"><img src="images/versaline.jpg" alt="Versa-Line encoder and memory box"></div>
+        <div class="gal-meta"><span class="tag">DEPTH &amp; ENCODERS</span><h3>Versa-Line encoder box</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="panels" data-title="Up/down control box" data-desc="Speed control box with up/down switching and status LEDs.">
+        <div class="imgwrap"><img src="images/black_ctrl_box.jpg" alt="Up/down speed control box"></div>
+        <div class="gal-meta"><span class="tag">PANELS &amp; HUBS</span><h3>Up/down control box</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="boxes" data-title="Relay &amp; power board" data-desc="Heat-sinked relay board dressed inside a sealed enclosure.">
+        <div class="imgwrap"><img src="images/relay_board.jpg" alt="Heat-sinked relay and power board"></div>
+        <div class="gal-meta"><span class="tag">BOXES &amp; BUILDS</span><h3>Relay &amp; power board</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="depth" data-title="Labeled terminal panel" data-desc="Ground, encoder, tension, and slip-ring circuits, each labeled at the block.">
+        <div class="imgwrap"><img src="images/terminal_panel.jpg" alt="Labeled terminal panel"></div>
+        <div class="gal-meta"><span class="tag">DEPTH &amp; ENCODERS</span><h3>Labeled terminal panel</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="panels" data-title="Fuse &amp; terminal panel" data-desc="Fuse block and terminal panel, dressed and labeled before the lid goes on.">
+        <div class="imgwrap"><img src="images/fuse_panel_open.jpg" alt="Fuse and terminal panel"></div>
+        <div class="gal-meta"><span class="tag">PANELS &amp; HUBS</span><h3>Fuse &amp; terminal panel</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="panels" data-title="Installed panel" data-desc="Same panel, installed and dressed in the vehicle bay.">
+        <div class="imgwrap"><img src="images/installed_panel.jpg" alt="Panel installed in a vehicle bay"></div>
+        <div class="gal-meta"><span class="tag">PANELS &amp; HUBS</span><h3>Installed panel</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="depth" data-title="Rotary encoder" data-desc="Reconditioned rotary encoder, bench-tested before it goes back out.">
+        <div class="imgwrap"><img src="images/encoder_product.jpg" alt="Reconditioned rotary encoder"></div>
+        <div class="gal-meta"><span class="tag">DEPTH &amp; ENCODERS</span><h3>Rotary encoder</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="boxes" data-title="Dual-motor driver board" data-desc="Hand-terminated motor driver board &mdash; every lead soldered and dressed.">
+        <div class="imgwrap"><img src="images/red_pcb.jpg" alt="Dual-motor driver board"></div>
+        <div class="gal-meta"><span class="tag">BOXES &amp; BUILDS</span><h3>Dual-motor driver board</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="boxes" data-title="Inside a control unit" data-desc="Relay board, transformer, and line filter, fully rebuilt.">
+        <div class="imgwrap"><img src="images/wide_interior.jpg" alt="Interior of a rebuilt control unit"></div>
+        <div class="gal-meta"><span class="tag">BOXES &amp; BUILDS</span><h3>Inside a control unit</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="depth" data-title="Depth correction control" data-desc="Depth correction control mounted and wired on a logging winch.">
+        <div class="imgwrap"><img src="images/depth_correction.jpg" alt="Depth correction control mounted on a logging winch"></div>
+        <div class="gal-meta"><span class="tag">DEPTH &amp; ENCODERS</span><h3>Depth correction control</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="panels" data-title="Unit power switching box" data-desc="Selects shop or rig power between two sources, with dual voltage metering.">
+        <div class="imgwrap"><img src="images/unit_power_box.jpg" alt="Unit power switching box"></div>
+        <div class="gal-meta"><span class="tag">PANELS &amp; HUBS</span><h3>Unit power switching box</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="panels" data-title="Main switching &amp; wiring hub" data-desc="Fuses and switches for lighting, camera, and alarm circuits.">
+        <div class="imgwrap"><img src="images/main_hub_box.jpg" alt="Main switching and wiring hub box"></div>
+        <div class="gal-meta"><span class="tag">PANELS &amp; HUBS</span><h3>Main switching &amp; wiring hub</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="boxes" data-title="Skid wiring" data-desc="Full skid wiring run, conduit-protected and ready for final assembly.">
+        <div class="imgwrap"><img src="images/skid_wiring.jpg" alt="Full skid wiring layout"></div>
+        <div class="gal-meta"><span class="tag">BOXES &amp; BUILDS</span><h3>Skid wiring</h3></div>
+      </div>
+
+      <div class="gal-card" data-cat="depth" data-title="Depth Encoder Simulator" data-desc="Depth Encoder Simulator with 3 speed ranges: 0.9 - 1.4 meters/min, 1.4 - 2.7 meters/min, 2.7 - 46 meters/min.">
+        <div class="imgwrap"><img src="images/depth_encoder_sim.jpg" alt="Depth Encoder Simulator with 3 speed ranges"></div>
+        <div class="gal-meta"><span class="tag">DEPTH &amp; ENCODERS</span><h3>Depth Encoder Simulator</h3></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="page" id="page-about" data-page="about">
+  <div class="wrap" style="padding-top:56px;">
+    <div class="about-hero">
+      <div>
+        <h1>About Cornerstone Pro</h1>
+        <p>Cornerstone Pro is a Calgary-based shop that designs, builds, and repairs the electrical systems oil and gas field equipment depends on &mdash; control panels, depth and encoder systems, wiring harnesses, and full skid builds for wireline and logging operations.</p>
+        <p>Every panel starts on the bench: laid out, labeled, and wired by hand, then tested before it goes anywhere near a rig. That's the standard whether the job is a small breakout box or a complete switching hub.</p>
+        <p>We're based in Calgary, Alberta, and work with operators and service companies across the field.</p>
+        <a href="#contact" class="btn btn-primary">Get in touch</a>
+      </div>
+      <img src="images/fuse_panel_open.jpg" alt="Fuse block and terminal panel, dressed and labeled">
+    </div>
+
+    <div class="values">
+      <div class="value">
+        <div class="dot"></div>
+        <h3>Labeled, not guessed</h3>
+        <p>Every terminal and every wire is labeled at the block, so the next person who opens the panel knows exactly what they're looking at.</p>
+      </div>
+      <div class="value">
+        <div class="dot"></div>
+        <h3>Tested before it ships</h3>
+        <p>Voltage and continuity get checked on the bench before a panel or harness ever leaves the shop.</p>
+      </div>
+      <div class="value">
+        <div class="dot"></div>
+        <h3>Built for the field</h3>
+        <p>Sealed connectors, dressed conduit, and enclosures chosen to hold up on a rig floor, not just on a shelf.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-strip">
+    <div class="wrap">
+      <div class="stat">
+        <span class="tag amber">WHAT WE BUILD</span>
+        <p>Control panels, depth &amp; encoder systems, harnesses &amp; breakout boxes, and skid or vehicle electrical builds.</p>
+      </div>
+      <div class="stat">
+        <span class="tag amber">WHO WE BUILD FOR</span>
+        <p>Wireline and logging operators, service companies, and field equipment owners.</p>
+      </div>
+      <div class="stat">
+        <span class="tag amber">WHERE WE WORK</span>
+        <p>Based in Calgary, Alberta &mdash; shop builds and on-site support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT US ================= -->
+<section class="page" id="page-contact" data-page="contact">
+  <div class="contact-form-wrap">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:8px;">
+        <div class="rule"></div>
+        <h1 style="color:#fff; font-size:clamp(30px,4vw,44px);">Contact us</h1>
+        <p style="color:#B9B6AB;">Tell us what you're building or fixing. Sending the form opens your email app with a message ready to go to our shop.</p>
+      </div>
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <label>Name<span class="req">*</span>
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>Email<span class="req">*</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+        </div>
+        <div class="form-row">
+          <label>Phone
+            <input type="tel" name="phone" autocomplete="tel">
+          </label>
+          <label>What do you need?
+            <select name="reason">
+              <option>General inquiry</option>
+              <option>Request a quote</option>
+              <option>Repair or diagnostics</option>
+              <option>Something else</option>
+            </select>
+          </label>
+        </div>
+        <label class="full">Message<span class="req">*</span>
+          <textarea name="message" rows="5" required placeholder="What are you building, fixing, or asking about?"></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Send message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER (always visible) ================= -->
+<footer class="site">
+  <div class="footer-top">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="foot-plate">
+            <img class="mark" src="images/logo.png" alt="" aria-hidden="true">
+            <span class="word">CORNERSTONE<span> PRO</span></span>
+          </div>
+          <p>Premium oil &amp; gas equipment &mdash; custom control panels, depth &amp; encoder systems, and wiring built in Calgary, Alberta.</p>
+          <div class="contact-links" style="margin-top:14px;">
+            <a href="mailto:nazar@cornerstonepro.ca" class="btn btn-outline-light" style="padding:10px 16px; font-size:14px;">Email us</a>
+            <a href="tel:+14035982688" class="btn btn-outline-light" style="padding:10px 16px; font-size:14px;">(403) 598-2688</a>
+          </div>
+        </div>
+        <div>
+          <h4>Site</h4>
+          <div class="foot-links">
+            <a href="#home" data-page="home">Home</a>
+            <a href="#services" data-page="services">Services</a>
+            <a href="#gallery" data-page="gallery">Gallery</a>
+            <a href="#about" data-page="about">About us</a>
+            <a href="#contact" data-page="contact">Contact us</a>
+          </div>
+        </div>
+        <div>
+          <h4>Hours</h4>
+          <table class="hours">
+            <tr><td>Monday</td><td>9:00 a.m.&ndash;5:00 p.m.</td></tr>
+            <tr><td>Tuesday</td><td>9:00 a.m.&ndash;5:00 p.m.</td></tr>
+            <tr><td>Wednesday</td><td>9:00 a.m.&ndash;5:00 p.m.</td></tr>
+            <tr><td>Thursday</td><td>9:00 a.m.&ndash;5:00 p.m.</td></tr>
+            <tr><td>Friday</td><td>9:00 a.m.&ndash;5:00 p.m.</td></tr>
+            <tr><td>Saturday</td><td>Closed</td></tr>
+            <tr><td>Sunday</td><td>Closed</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>&copy; 2026 Cornerstone Pro. All rights reserved.</span>
+    <span>nazar@cornerstonepro.ca &nbsp;&middot;&nbsp; (403) 598-2688 &nbsp;&middot;&nbsp; Calgary, Alberta</span>
+  </div>
+</footer>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+  <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+  <figure>
+    <img id="lbImg" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+</div>
+
+<script>
+(function(){
+  var pages = document.querySelectorAll('.page');
+  var navLinks = document.querySelectorAll('[data-page]');
+
+  function showPage(name){
+    pages.forEach(function(p){ p.classList.toggle('active', p.dataset.page === name); });
+    navLinks.forEach(function(l){ l.classList.toggle('active', l.dataset.page === name); });
+    window.scrollTo({top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto'});
+    var nav = document.getElementById('primaryNav');
+    nav.classList.remove('open');
+    document.getElementById('burgerBtn').setAttribute('aria-expanded','false');
+  }
+
+  function pageFromHash(){
+    var h = (location.hash || '#home').replace('#','');
+    var valid = ['home','services','gallery','about','contact'];
+    return valid.indexOf(h) !== -1 ? h : 'home';
+  }
+
+  window.addEventListener('hashchange', function(){ showPage(pageFromHash()); });
+  showPage(pageFromHash());
+
+  document.getElementById('burgerBtn').addEventListener('click', function(){
+    var nav = document.getElementById('primaryNav');
+    var open = nav.classList.toggle('open');
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // gallery filters
+  var filterBtns = document.querySelectorAll('#galFilters button');
+  var galCards = document.querySelectorAll('.gal-card');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var f = btn.dataset.filter;
+      galCards.forEach(function(card){
+        card.classList.toggle('hidden', f !== 'all' && card.dataset.cat !== f);
+      });
+    });
+  });
+
+  // lightbox
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbCap = document.getElementById('lbCap');
+  galCards.forEach(function(card){
+    card.addEventListener('click', function(){
+      lbImg.src = card.querySelector('img').src;
+      lbImg.alt = card.dataset.title;
+      lbCap.textContent = card.dataset.title + ' \u2014 ' + card.dataset.desc;
+      lb.classList.add('open');
+    });
+  });
+  function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+  document.getElementById('lbClose').addEventListener('click', closeLb);
+  lb.addEventListener('click', function(e){ if(e.target === lb) closeLb(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLb(); });
+
+  // contact form -> mailto
+  var contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var f = e.target;
+      var name = f.name.value.trim();
+      var email = f.email.value.trim();
+      var phone = f.phone.value.trim();
+      var reason = f.reason.value;
+      var message = f.message.value.trim();
+
+      var subject = 'Website inquiry \u2014 ' + reason + (name ? ' (' + name + ')' : '');
+      var bodyLines = [
+        'Name: ' + name,
+        'Email: ' + email,
+        phone ? 'Phone: ' + phone : null,
+        'Reason: ' + reason,
+        '',
+        message
+      ].filter(function(line){ return line !== null; }).join('\n');
+
+      var mailto = 'mailto:nazar@cornerstonepro.ca'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(bodyLines);
+
+      window.location.href = mailto;
+    });
+  }
+})();
+</script>
+</body>
+</html>
